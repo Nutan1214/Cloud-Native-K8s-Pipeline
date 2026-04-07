@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 2 # Scalability: runs 2 copies for reliability
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask-container
+        image: nutan1214/cloud-native-k8s-pipeline:latest # Your image
+        ports:
+        - containerPort: 5000
+        
