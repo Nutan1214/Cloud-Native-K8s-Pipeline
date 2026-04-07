@@ -1,0 +1,8 @@
+replicaCount: 2
+image:
+  repository: nutan1214/cloud-native-k8s-pipeline
+  pullPolicy: IfNotPresent
+  tag: "latest"
+service:
+  type: LoadBalancer
+  port: 80
