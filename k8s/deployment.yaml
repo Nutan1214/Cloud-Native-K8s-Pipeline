@@ -1,20 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app
+  name: cloud-native-app
 spec:
-  replicas: 2 # Scalability: runs 2 copies for reliability
+  replicas: 2
   selector:
     matchLabels:
-      app: flask
+      app: web
   template:
     metadata:
       labels:
-        app: flask
+        app: web
     spec:
       containers:
-      - name: flask-container
-        image: nutan1214/cloud-native-k8s-pipeline:latest # Your image
+      - name: flask-app
+        image: your-dockerhub-username/cloud-native-app:latest
         ports:
         - containerPort: 5000
-        
+        - containerPort: 8000
+        # Probes for Self-Healing
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5000
+        # Testing Environment Variables
+        env:
+        - name: APP_MESSAGE
+          value: "Hello from Kubernetes Production!"
