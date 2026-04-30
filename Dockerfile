@@ -1,6 +1,9 @@
 FROM python:3.9-slim
 WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-RUN pip install flask
+# Open ports for App and Monitoring
 EXPOSE 5000
+EXPOSE 8000
 CMD ["python", "app.py"]
